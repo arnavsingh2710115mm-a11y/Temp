@@ -1,0 +1,18 @@
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="${ctx}/home"><img src="${ctx}/images/logo.svg" alt=""><span><span class="brand-name">PETFEET</span><span class="brand-tag" style="color:#9FB0AA">Every Paw Deserves a Home.</span></span></a>
+        <p style="margin-top:14px;max-width:340px">PetFeet connects loving pets with their forever families through trusted shelters and rescues.</p>
+      </div>
+      <div><h4>Explore</h4><ul><li><a href="${ctx}/pets">Find a Pet</a></li><li><a href="${ctx}/shelters">Shelters</a></li><li><a href="${ctx}/register?role=SHELTER">List a Pet</a></li><li><a href="${ctx}/about-project">About Project / Java Concepts</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="${ctx}/about">About Us</a></li><li><a href="${ctx}/contact">Contact</a></li><li><a href="${ctx}/login">Login</a></li></ul></div>
+    </div>
+    <small>&copy; 2026 PetFeet - a college Java web project. Made with &#10084; for every paw.</small>
+  </div>
+</footer>
+<script src="${ctx}/js/app.js"></script>
+<script src="${ctx}/js/charts.js"></script>
+</body>
+</html>

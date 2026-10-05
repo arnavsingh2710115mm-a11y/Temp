@@ -1,0 +1,2 @@
+<c:if test="${not empty flashSuccess}"><div class="alert alert-success" role="status" data-autohide>&#10004; <span><c:out value="${flashSuccess}"/></span></div></c:if>
+<c:if test="${not empty flashError}"><div class="alert alert-error" role="alert">&#9888; <span><c:out value="${flashError}"/></span></div></c:if>

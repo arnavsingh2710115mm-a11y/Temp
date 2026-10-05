@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="${csrfToken}">
+  <title><c:out value="${pageTitle}"/> - PetFeet</title>
+  <link rel="icon" href="${ctx}/images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${ctx}/css/petfeet.css">
+</head>
+<body data-ctx="${ctx}">
+<header class="nav" id="top">
+  <div class="container nav-inner">
+    <a class="brand" href="${ctx}/home" aria-label="PetFeet home">
+      <img src="${ctx}/images/logo.svg" alt="">
+      <span><span class="brand-name">PETFEET</span><span class="brand-tag">Every Paw Deserves a Home.</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="${ctx}/home" class="${activeNav == 'home' ? 'active' : ''}">Home</a>
+      <a href="${ctx}/pets" class="${activeNav == 'pets' ? 'active' : ''}">Find a Pet</a>
+      <a href="${ctx}/home#how-it-works">How It Works</a>
+      <a href="${ctx}/shelters" class="${activeNav == 'shelters' ? 'active' : ''}">Shelters</a>
+      <a href="${ctx}/about" class="${activeNav == 'about' ? 'active' : ''}">About Us</a>
+      <a href="${ctx}/contact" class="${activeNav == 'contact' ? 'active' : ''}">Contact</a>
+      <c:if test="${empty currentUser}">
+        <a class="mobile-only" href="${ctx}/login">Login</a><a class="mobile-only" href="${ctx}/register">Register</a>
+      </c:if>
+    </nav>
+    <div class="nav-actions ${empty currentUser ? 'guest' : ''}">
+      <c:choose>
+        <c:when test="${empty currentUser}">
+          <a class="btn btn-ghost btn-sm" href="${ctx}/login">Login</a>
+          <a class="btn btn-sm" href="${ctx}/register">Register</a>
+        </c:when>
+        <c:otherwise>
+          <a class="btn btn-sm hide-sm" href="${ctx}${currentUser.dashboardPath}">Dashboard</a>
+          <a class="icon-btn" href="${ctx}/notifications" title="Notifications" aria-label="Notifications"><span class="bell ${unreadNotifications gt 0 ? 'ring' : ''}">&#128276;</span><c:if test="${unreadNotifications gt 0}"><span class="dot">${unreadNotifications}</span></c:if></a>
+          <a class="icon-btn hide-sm" href="${ctx}/profile" title="Profile" aria-label="Profile">&#128100;</a>
+          <a class="btn btn-peach btn-sm" href="${ctx}/logout">Logout</a>
+        </c:otherwise>
+      </c:choose>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+<c:if test="${empty noFlash and (not empty flashSuccess or not empty flashError)}"><div class="container" style="margin-top:18px"><%@ include file="/WEB-INF/views/common/flash.jspf" %></div></c:if>
+<main>

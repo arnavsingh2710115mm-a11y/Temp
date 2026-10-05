@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: petfeet
+    runtime: docker
+    plan: free
+    region: virginia
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: PETFEET_DB_SCHEMA
+        value: petfeet
+      - key: DATABASE_URL
+        sync: false

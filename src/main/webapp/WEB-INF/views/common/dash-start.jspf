@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="${csrfToken}">
+  <title><c:out value="${pageTitle}"/> - PetFeet</title>
+  <link rel="icon" href="${ctx}/images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${ctx}/css/petfeet.css">
+</head>
+<body data-ctx="${ctx}">
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="${ctx}/home"><img src="${ctx}/images/logo.svg" alt=""><span><span class="brand-name">PETFEET</span><span class="brand-tag">Every Paw Deserves a Home.</span></span></a>
+    <c:set var="role" value="${currentUser.role.name()}"/>
+    <c:choose>
+      <c:when test="${role == 'ADMIN'}">
+        <span class="side-label">Admin</span>
+        <a class="side-link ${activeNav == 'overview' ? 'active' : ''}" href="${ctx}/admin/dashboard">&#127968; Overview</a>
+        <a class="side-link ${activeNav == 'users' ? 'active' : ''}" href="${ctx}/admin/users">&#128101; User Management</a>
+        <a class="side-link ${activeNav == 'pets' ? 'active' : ''}" href="${ctx}/admin/pets">&#128054; Pet Listings</a>
+        <a class="side-link ${activeNav == 'applications' ? 'active' : ''}" href="${ctx}/admin/applications">&#128221; Adoptions</a>
+        <a class="side-link ${activeNav == 'analytics' ? 'active' : ''}" href="${ctx}/admin/analytics">&#128200; Analytics</a>
+        <a class="side-link ${activeNav == 'logs' ? 'active' : ''}" href="${ctx}/admin/logs">&#128220; Activity Logs</a>
+        <a class="side-link ${activeNav == 'settings' ? 'active' : ''}" href="${ctx}/admin/settings">&#9881; System Settings</a>
+      </c:when>
+      <c:when test="${role == 'SHELTER'}">
+        <span class="side-label">Shelter</span>
+        <a class="side-link ${activeNav == 'overview' ? 'active' : ''}" href="${ctx}/shelter/dashboard">&#127968; Overview</a>
+        <a class="side-link ${activeNav == 'pets' ? 'active' : ''}" href="${ctx}/shelter/pets">&#128062; My Pets</a>
+        <a class="side-link ${activeNav == 'add' ? 'active' : ''}" href="${ctx}/shelter/pets/add">&#10133; Add a Pet</a>
+        <a class="side-link ${activeNav == 'applications' ? 'active' : ''}" href="${ctx}/shelter/applications">&#128221; Applications</a>
+        <a class="side-link ${activeNav == 'messages' ? 'active' : ''}" href="${ctx}/messages">&#128172; Messages <c:if test="${unreadMessages gt 0}"><span class="count">${unreadMessages}</span></c:if></a>
+      </c:when>
+      <c:otherwise>
+        <span class="side-label">Adopter</span>
+        <a class="side-link ${activeNav == 'overview' ? 'active' : ''}" href="${ctx}/adopter/dashboard">&#127968; Overview</a>
+        <a class="side-link ${activeNav == 'find' ? 'active' : ''}" href="${ctx}/pets">&#128269; Find a Pet</a>
+        <a class="side-link ${activeNav == 'favorites' ? 'active' : ''}" href="${ctx}/adopter/favorites">&#10084; Favorites</a>
+        <a class="side-link ${activeNav == 'applications' ? 'active' : ''}" href="${ctx}/adopter/applications">&#128221; My Applications</a>
+        <a class="side-link ${activeNav == 'messages' ? 'active' : ''}" href="${ctx}/messages">&#128172; Messages <c:if test="${unreadMessages gt 0}"><span class="count">${unreadMessages}</span></c:if></a>
+      </c:otherwise>
+    </c:choose>
+    <span class="side-label">Account</span>
+    <a class="side-link ${activeNav == 'notifications' ? 'active' : ''}" href="${ctx}/notifications">&#128276; Notifications <c:if test="${unreadNotifications gt 0}"><span class="count">${unreadNotifications}</span></c:if></a>
+    <a class="side-link ${activeNav == 'profile' ? 'active' : ''}" href="${ctx}/profile">&#128100; Profile</a>
+    <a class="side-link" href="${ctx}/home">&#127760; Back to website</a>
+    <div class="side-user"><b><c:out value="${currentUser.name}"/></b><span class="muted"><c:out value="${currentUser.roleLabel}"/> account</span><br><a href="${ctx}/logout">Log out</a></div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <div class="row"><button class="icon-btn side-toggle" type="button" data-side-toggle aria-label="Open menu" style="border:0;cursor:pointer">&#9776;</button><h1><c:out value="${pageTitle}"/></h1></div>
+      <div class="row">
+        <a class="icon-btn" href="${ctx}/notifications" title="Notifications" aria-label="Notifications"><span class="bell ${unreadNotifications gt 0 ? 'ring' : ''}">&#128276;</span><c:if test="${unreadNotifications gt 0}"><span class="dot">${unreadNotifications}</span></c:if></a>
+        <a class="avatar" href="${ctx}/profile" title="Profile" style="text-decoration:none;color:inherit"><c:out value="${fn:toUpperCase(fn:substring(currentUser.name,0,1))}"/></a>
+      </div>
+    </div>
+    <div class="content">
+      <%@ include file="/WEB-INF/views/common/flash.jspf" %>

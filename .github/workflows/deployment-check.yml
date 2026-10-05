@@ -1,0 +1,51 @@
+name: Deployment check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the production image
+        run: docker build -t petfeet:test .
+      - name: Start a disposable PostgreSQL database
+        run: |
+          docker network create petfeet-test
+          docker run -d --name petfeet-db --network petfeet-test \
+            -e POSTGRES_DB=petfeet -e POSTGRES_USER=petfeet \
+            -e POSTGRES_PASSWORD=petfeet_test_only postgres:17
+          for attempt in $(seq 1 30); do
+            if docker exec petfeet-db pg_isready -U petfeet -d petfeet; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - name: Start PetFeet on a custom port
+        run: |
+          docker run -d --name petfeet-app --network petfeet-test \
+            -p 127.0.0.1:10000:10000 -e PORT=10000 \
+            -e PETFEET_DB_SCHEMA=petfeet_test \
+            -e DATABASE_URL=postgresql://petfeet:petfeet_test_only@petfeet-db:5432/petfeet \
+            petfeet:test
+      - name: Check pages, logins, adoption, uploads and database writes
+        run: python3 scripts/smoke_test.py before
+      - name: Restart the app and check persistence
+        run: |
+          docker restart petfeet-app
+          python3 scripts/smoke_test.py after
+      - name: Show app logs on failure
+        if: failure()
+        run: docker logs petfeet-app || true
+      - name: Clean up test containers
+        if: always()
+        run: |
+          docker rm -f petfeet-app petfeet-db || true
+          docker network rm petfeet-test || true

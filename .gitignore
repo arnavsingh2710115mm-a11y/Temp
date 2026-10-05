@@ -1,0 +1,13 @@
+target/
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+*.iml
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+# Never commit local database credentials
+src/main/resources/db.local.properties
