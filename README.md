@@ -4,6 +4,14 @@
 An online pet adoption platform: **Java Servlets + JSP + JDBC**, with **PostgreSQL online** and **MySQL for local development**, built with Maven (WAR), MVC architecture.
 Three roles - **Admin**, **Shelter**, **Adopter** - each with a working dashboard.
 
+## Live website
+
+**[Open PetFeet](https://petfeet.onrender.com/)**
+
+Open this link in a browser to use the project. No download, terminal, or local database setup is needed. The hosted app and its PostgreSQL data run online in Render's Virginia region.
+
+Use the demo accounts listed below to try the **Admin**, **Shelter**, and **Adopter** dashboards. The demo password is `Demo@123`.
+
 ---------------------------------------------------------------------
 
 ## 1. Requirements
@@ -194,4 +202,4 @@ The GitHub Actions workflow builds the Docker image, starts it on a custom port 
 
 ### Free hosting limits
 
-Render's free web service can sleep when idle, so the first visit may take longer. Free Render PostgreSQL databases expire after 30 days; arrange a database migration or paid plan before the database expires. See [Render's free hosting documentation](https://render.com/docs/free).
+Render's free web service can sleep when idle, so the first visit may take longer. The database currently connected to this app expires on **2 November 2026** under Render's free PostgreSQL plan; arrange a database migration or paid plan before that date. See [Render's free hosting documentation](https://render.com/docs/free).
